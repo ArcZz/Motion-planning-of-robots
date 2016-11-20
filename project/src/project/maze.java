@@ -53,12 +53,19 @@ public class maze {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numRows; j++) {
                 rec = new Rectangle(squareHeight, squareHeight);
-                if((i+j)%2==0){
-                    rec.setFill(lightColor);}
-                else {rec.setFill(darkColor);}
+                rec.setFill(lightColor);
+                rec.setStroke(darkColor);
+                if((i == startx)&&(j==starty)){
+                rec.setFill(Color.RED);
+                }
+                  if((i == endx)&&(j==endy)){
+                rec.setFill(Color.GREENYELLOW);
+                }
+
                 gridPane.add(rec, i, j);
             }
         }
+        
         return gridPane;
     }
 

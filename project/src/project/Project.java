@@ -7,7 +7,6 @@ package project;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -21,10 +20,10 @@ public class Project extends Application {
     private final int boardHeight = 600;
     public maze maze;
     public int numR;
-    public int startx;
-    public int starty;
-    public int endx;
-    public int endy;
+    public int startx = 0;
+    public int starty = 0;
+    public int endx = 2;
+    public int endy = 2;
     @Override
     public void start(Stage primaryStage) {
         
