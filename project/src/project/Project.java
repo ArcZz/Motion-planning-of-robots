@@ -6,11 +6,9 @@
 package project;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 /**
@@ -18,9 +16,20 @@ import javafx.stage.Stage;
  * @author zhangzhi
  */
 public class Project extends Application {
-    
+    private final int numRows = 8;
+    private final int boardWidth = 600;
+    private final int boardHeight = 600;
+    public maze maze;
+    public int numR;
+    public int startx;
+    public int starty;
+    public int endx;
+    public int endy;
     @Override
     public void start(Stage primaryStage) {
+        
+        
+/*       //start button 
         Button btn = new Button();
         btn.setText("start");
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -29,12 +38,16 @@ public class Project extends Application {
             public void handle(ActionEvent event) {
                 System.out.println("Hello World!");
             }
-        });
+        });*/
+       maze = new maze(numRows, startx, starty,endx,endy, boardWidth,boardHeight);
+
+       
+        GridPane grid = maze.build();
+//        AnchorPane anchor = new AnchorPane();
+//        grid.add(anchor, 0, 1);
+        //root.getChildren().add(btn);
         
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(grid, boardWidth, boardHeight);
         
         primaryStage.setTitle("Motion planning of robots");
         primaryStage.setScene(scene);
