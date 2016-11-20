@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="robotoverlords.BattlegroundController">
+    <stylesheets>
+        <URL value="@battleground.css" />
+    </stylesheets>
+   <children>
+      <Button layoutX="40.0" layoutY="159.0" mnemonicParsing="false" onAction="#handleAction" prefHeight="82.0" prefWidth="119.0" text="Submit to New Robot Overlords" textAlignment="CENTER" wrapText="true" />
+      <VBox fx:id="battleArea" layoutX="200.0" prefHeight="400.0" prefWidth="400.0" />
+      <TextField fx:id="filenameTextField" layoutX="25.0" layoutY="99.0" promptText="Enter Arena Filename" />
+   </children>
+</AnchorPane>
