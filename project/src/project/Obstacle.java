@@ -21,5 +21,11 @@ public class Obstacle extends Nodes {
     public Obstacle(int x, int y) {
         super(x, y);
     }
+    public void hitwall(int x, int y){
+        x++;
+    }
+    public void unPass(Nodes node){
+        node.pass = false;
+    }
 
 }
