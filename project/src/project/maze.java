@@ -30,9 +30,7 @@ public class maze {
     public int endy;
     public int ox;
     public int oy;
-    public Nodes startNode;
-    public Nodes endNode;
-     public Nodes parent;
+   
     public int[][] maps;
     private Color lightColor;
     private Color darkColor;
@@ -72,18 +70,8 @@ public class maze {
         recs[startx][starty].setFill(Color.RED);
         recs[endx][endy].setFill(Color.GREENYELLOW);
         recs[ox][oy].setFill(Color.BLUE);
-        startNode = new Nodes(startx, starty);  
-        endNode = new Nodes(endx, endy);  
-        parent = new AStar().findPath(numRows,startNode, endNode); 
-      
         
-        walkList = new ArrayList<Nodes>();
-        while (parent != null) {  
-           // changeColor(parent.x,parent.y);
-            System.out.println(parent.x + ", " + parent.y);  
-            walkList.add(new Nodes(parent.x, parent.y));  
-            parent = parent.parent;  
-        }  
+      
         return gridPane;
     }
     
