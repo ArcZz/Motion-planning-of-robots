@@ -5,6 +5,7 @@
  */
 package project;
 
+import java.io.FileNotFoundException;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
@@ -14,6 +15,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import javafx.scene.layout.GridPane;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  *
@@ -141,8 +144,33 @@ public class Project extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        ParseTxtFile parse = new ParseTxtFile();
+        String fileName = "room.txt";
+        
+        FileReader file1 = new FileReader("src/project/room.txt");
+        
+        if (parse.IsItEmpty(file1) == false){
+            System.out.print("\nThe file is empty.\n");
+            System.exit(0);
+        }
+        
+        FileReader file2 = new FileReader("src/project/room.txt");
+        
+        if (parse.CorrectNumLines(file2) == false){
+            System.out.print("\nWrong format: error 1\n");
+            System.exit(0);
+        }
+        
+        FileReader file3 = new FileReader("src/project/room.txt");
+        
+        if (parse.IsItValid(file3) == false){
+            System.out.print("\nWrong format: error 2\n");
+            System.exit(0);
+        }
+        
+        System.out.print("\nParsing complete.\n");
+        
         launch(args);
     }
 
