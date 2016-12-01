@@ -39,14 +39,18 @@ public class Obstacle extends Nodes {
     }
     
     public void moveOnce() {
-        //get new x-coordinate
+        //get new x-coordinate and direction
         
         if (xDirection == -1) {
             distanceToWall = distanceToZero = x;
             if (speed < distanceToWall) {
                 x = Math.abs(speed - distanceToZero);
             } else {
-                x = (speed - distanceToZero) % (gridWidth - 1);
+                if (speed >= distanceToZero) {
+                    x = (speed - distanceToZero) % (gridWidth - 1);
+                } else {    //Java rounds towards zero for modulus operator
+                    x = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
+                }
             }
         } else {    //xDirection == 1
             distanceToWall = gridWidth - 1 - x;
@@ -54,18 +58,38 @@ public class Obstacle extends Nodes {
             if (speed >= distanceToZero) {
                 x = Math.abs(speed - distanceToWall);
             } else {
-                x = (speed - distanceToZero) % (gridWidth - 1);
+                if (speed >= distanceToZero) {
+                    x = (speed - distanceToZero) % (gridWidth - 1);
+                } else {    //Java rounds towards zero for modulus operator
+                    x = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
+                }
             }
         }
         
-        //get new y-coordinate
+        wallHits = 0;
+        if (speed >= distanceToWall) {
+            if (speed >= distanceToZero) {
+                wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
+            } else {
+                wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
+            }
+            if ((wallHits % 2) == 1) {
+                yDirection *= -1;
+            }
+        }
+        
+        //get new y-coordinate and direction
         
         if (yDirection == -1) {
             distanceToWall = distanceToZero = y;
             if (speed < distanceToWall) {
                 y = Math.abs(speed - distanceToZero);
             } else {
-                y = (speed - distanceToZero) % (gridWidth - 1);
+                if (speed >= distanceToZero) {
+                    y = (speed - distanceToZero) % (gridWidth - 1);
+                } else {    //Java rounds towards zero for modulus operator
+                    y = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
+                }
             }
         } else {    //yDirection == 1
             distanceToWall = gridWidth - 1 - y;
@@ -73,7 +97,23 @@ public class Obstacle extends Nodes {
             if (speed >= distanceToZero) {
                 y = Math.abs(speed - distanceToWall);
             } else {
-                y = (speed - distanceToZero) % (gridWidth - 1);
+                if (speed >= distanceToZero) {
+                    y = (speed - distanceToZero) % (gridWidth - 1);
+                } else {    //Java rounds towards zero for modulus operator
+                    y = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
+                }
+            }
+        }
+        
+        wallHits = 0;
+        if (speed >= distanceToWall) {
+            if (speed >= distanceToZero) {
+                wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
+            } else {
+                wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
+            }
+            if ((wallHits % 2) == 1) {
+                yDirection *= -1;
             }
         }
     }
