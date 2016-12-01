@@ -68,13 +68,9 @@ public class Obstacle extends Nodes {
         
         wallHits = 0;
         if (speed >= distanceToWall) {
-            if (speed >= distanceToZero) {
-                wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
-            } else {
-                wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
-            }
+            wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
             if ((wallHits % 2) == 1) {
-                yDirection *= -1;
+                xDirection *= -1;
             }
         }
         
@@ -107,11 +103,7 @@ public class Obstacle extends Nodes {
         
         wallHits = 0;
         if (speed >= distanceToWall) {
-            if (speed >= distanceToZero) {
-                wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
-            } else {
-                wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
-            }
+            wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
             if ((wallHits % 2) == 1) {
                 yDirection *= -1;
             }
