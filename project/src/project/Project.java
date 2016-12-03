@@ -146,36 +146,38 @@ public class Project extends Application {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         ParseTxtFile parse = new ParseTxtFile();
-        String fileName = "room.txt";
         
-        FileReader file1 = new FileReader("src/project/room.txt");
-        
-        if (parse.IsItEmpty(file1) == false){
-            System.out.print("\nThe file is empty.\n");
-            System.exit(0);
+        try (FileReader file1 = new FileReader("src/project/room.txt")) {
+            if (parse.IsItEmpty(file1) == false){
+                System.out.print("\nThe file is empty.\n");
+                file1.close();//I need to close the file
+                System.exit(0);
+            }
         }
         
-        FileReader file2 = new FileReader("src/project/room.txt");
-        
-        if (parse.CorrectNumLines(file2) == false){
-            System.out.print("\nWrong format: error 1\n");
-            System.exit(0);
+        try (FileReader file2 = new FileReader("src/project/room.txt")) {
+            if (parse.CorrectNumLines(file2) == false){
+                System.out.print("\nWrong format: error 1\n");
+                file2.close();//again
+                System.exit(0);
+            }
         }
         
-        FileReader file3 = new FileReader("src/project/room.txt");
-        
-        if (parse.IsItValid(file3) == false){
-            System.out.print("\nWrong format: error 2\n");
-            System.exit(0);
+        try (FileReader file3 = new FileReader("src/project/room.txt")) {
+            if (parse.IsItValid(file3) == false){
+                System.out.print("\nWrong format: error 2\n");
+                file3.close();//again
+                System.exit(0);
+            }
         }
         
         System.out.print("\nParsing complete.\n");
         
         Gather gather = new Gather();
-        
-        FileReader file4 = new FileReader("src/project/room.txt");
-        
-        gather.collectYourData(file4);
+        //If this was c, then I would rewind the file then.
+        try (FileReader file4 = new FileReader("src/project/room.txt")) {
+            gather.collectYourData(file4);//again
+        }
         
         launch(args);
     }
