@@ -171,6 +171,12 @@ public class Project extends Application {
         
         System.out.print("\nParsing complete.\n");
         
+        Gather gather = new Gather();
+        
+        FileReader file4 = new FileReader("src/project/room.txt");
+        
+        gather.collectYourData(file4);
+        
         launch(args);
     }
 
