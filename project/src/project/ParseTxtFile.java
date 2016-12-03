@@ -23,17 +23,22 @@ public class ParseTxtFile {
     public boolean IsItEmpty(FileReader filePath) throws IOException{
         
         BufferedReader br = new BufferedReader(filePath);
-        return br.readLine() != null;
+        
+        if (br.readLine() == null){//I forgot to close the BufferedReader
+            br.close();
+            return false;
+        }
+        return true;
     }
     
     public boolean CorrectNumLines(FileReader filePath) throws IOException{
         int lines = 0;
         
-        BufferedReader br = new BufferedReader(filePath);
-        
-        while (br.readLine() != null)
-            lines++;
-        
+        try (BufferedReader br = new BufferedReader(filePath)) {
+            while (br.readLine() != null) {
+                lines++;
+            }
+        }
         return lines == demandslist;
     }
     
