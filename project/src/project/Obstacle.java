@@ -26,6 +26,9 @@ public class Obstacle extends Nodes {
     public int distanceToWall;
     public int distanceToZero;
     public int wallHits;
+    
+    private int lastX;
+    private int lastY;
 
     public Obstacle(int x, int y, int speed, int xDirection, int yDirection, int gridWidth) {
         super(x, y);
@@ -33,6 +36,8 @@ public class Obstacle extends Nodes {
         this.xDirection = xDirection;
         this.yDirection = yDirection;
         this.gridWidth = gridWidth;
+        this.lastX = x;
+        this.lastY = y;
     }
     public void hitwall(int x, int y){
         x++;
@@ -40,6 +45,8 @@ public class Obstacle extends Nodes {
     
     public void moveOnce() {
         //get new x-coordinate and direction
+        lastX = x;
+        lastY = y;
         
         if (xDirection == -1) {
             distanceToWall = distanceToZero = x;
@@ -123,5 +130,10 @@ public class Obstacle extends Nodes {
     
     public int getY() {
         return y;
+    }
+    
+    public void moveBack() {
+        x = lastX;
+        y = lastY;
     }
 }
