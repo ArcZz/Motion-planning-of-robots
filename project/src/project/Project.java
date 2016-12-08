@@ -19,6 +19,8 @@ import javafx.scene.layout.GridPane;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 /**
  *
@@ -36,23 +38,26 @@ public class Project extends Application {
     public maze maze;
     public Timeline time;
     public boolean pass = true;
+     public boolean notend = true;
     public Nodes robot;
     public Nodes startNode;
     public Nodes endNode;
     public Nodes parent;
     public Obstacle obstaclea;
+    public Paint saveColora = Color.WHITE;
     public int oax;
     public int oay;
     public int xaDirection;
     public int yaDirection;
     public int aspeed;
     public Obstacle obstacleb;
+    public Paint saveColorb = Color.WHITE;
     public int obx;
     public int oby;
     public int xbDirection;
     public int ybDirection;
     public int bspeed;
-    public Path path;
+    public Path walkpath;
     public AStar star;
     public int step = 0;
     public ArrayList<Nodes> walkList;
@@ -63,6 +68,7 @@ public class Project extends Application {
     public FileReader file4;
     public Gather gather;
     public File file;
+    public int move = 0;
     public static String filename;
             
     @Override
@@ -145,13 +151,13 @@ public class Project extends Application {
           xbDirection = gather.dirSndObY;
           ybDirection = gather.dirSndObX;
           bspeed = gather.spdSndOb;
-      
+          
         maze = new maze(numRows, startx, starty, endx, endy, oax, oay, obx, oby, boardWidth, boardHeight);
-        System.out.print(numRows);
+        //System.out.print(numRows);
         
         startNode = new Nodes(startx, starty);
         endNode = new Nodes(endx, endy);
-        parent = new AStar().findPath(numRows, startNode, endNode,0,0);
+        parent = new AStar().findPath(numRows, startNode, endNode,oax,oay,obx,oby);
   
         walkList = new ArrayList<Nodes>();
         while (parent != null) {
@@ -161,10 +167,12 @@ public class Project extends Application {
         }      
         step = walkList.size() - 1;   
          //System.out.println(step);
-        path = new Path(walkList, step);
+        walkpath = new Path(walkList, step);
         obstaclea = new Obstacle(oax, oay, aspeed, xaDirection, yaDirection, numRows);
         obstacleb = new Obstacle(obx, oby, bspeed, xbDirection, ybDirection, numRows);
-        
+        robot = walkpath.path.get(walkpath.step);
+      
+       
         GridPane grid = maze.build();
         Scene scene = new Scene(grid);
       
@@ -187,43 +195,76 @@ public class Project extends Application {
             return true;
         }
     }
-
-    public void move() {
-        maze.backobstacleColor(oax, oay);
-        oax++;
-        maze.changeobstacleColor(oax, oay);
+     public boolean CheckonthePath(int x, int endx, int y, int endy) {
+        if (x == endx && y == endy) {
+            return false;
+        } else {
+            return true;
+        }
     }
+
+
       public void movea(){
-      maze.backobstacleColor(obstaclea.getX(), obstaclea.getY());
+          
+      int x = obstaclea.getX();
+      int y = obstaclea.getY();
+      maze.getArectangle(x, y).setFill(saveColora);
       obstaclea.moveOnce();
+      
+      saveColora = maze.getArectangle(obstaclea.getX(), obstaclea.getY()).getFill();
       maze.changeobstacleColor(obstaclea.getX(), obstaclea.getY());
+      
     }
       public void moveb(){
-      maze.backobstacleColor(obstacleb.getX(), obstacleb.getY());
-      obstacleb.moveOnce();
-      maze.changeobstacleColor(obstacleb.getX(), obstacleb.getY());
-    }
-   public Path reFindPath(int x, int y, int ox, int oy) {
+      int x = obstacleb.getX();
+      int y = obstacleb.getY();
+       maze.getArectangle(x, y).setFill(saveColorb);
+      
+       obstacleb.moveOnce();
+       saveColorb = maze.getArectangle(obstacleb.getX(), obstacleb.getY()).getFill();
+       if (saveColorb.equals(Color.BLUE)){
+       saveColorb = saveColora;
+       }
+      
+         maze.changeobstacleColor(obstacleb.getX(), obstacleb.getY());
        
-        startNode = new Nodes(x, y);
-        parent = new AStar().findPath(numRows, startNode, endNode,ox,oy);
-        
-        walkList.clear();
-        while (parent != null) {
-            //System.out.println(parent.x + ", " + parent.y);
-            walkList.add(new Nodes(parent.x, parent.y));
-            parent = parent.parent;
-        }
-        step = walkList.size() - 1;
-        path = new Path(walkList, step);
-        
-        return path;
+    
     }
+//   public Path reFindPath(int x, int y, int ox, int oy) {
+//       
+//        startNode = new Nodes(x, y);
+//        parent = new AStar().findPath(numRows, startNode, endNode,ox,oy);
+//        
+//        walkList.clear();
+//        while (parent != null) {
+//            //System.out.println(parent.x + ", " + parent.y);
+//            walkList.add(new Nodes(parent.x, parent.y));
+//            parent = parent.parent;
+//        }
+//        step = walkList.size() - 1;
+//        path = new Path(walkList, step);
+//        
+//        return path;
+//    }
    
 
     public void update() {
-             movea();
-             moveb();
+//             movea();
+//             moveb();
+             notend = CheckonthePath(robot.x,endx,robot.y,endy);
+               
+           robot = walkpath.path.get(0);
+           maze.changeColor(robot.x,robot.y);
+           robot = walkpath.path.get(1);
+           maze.changeColor(robot.x,robot.y);
+           robot = walkpath.path.get(2);
+           maze.changeColor(robot.x,robot.y);
+           robot = walkpath.path.get(3);
+           maze.changeColor(robot.x,robot.y);
+          
+        
+             //System.out.println(notend);
+             
 //        if (path.step != 0) {
 //            robot = path.path.get(path.step);
 //

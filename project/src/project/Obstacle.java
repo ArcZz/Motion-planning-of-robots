@@ -109,8 +109,8 @@ public class Obstacle extends Nodes {
             }
         }
         
-        System.out.println("New (x,y) " + x + " " + y);
-        System.out.println("New dir " + xDirection + " " + yDirection);
+       // System.out.println("New (x,y) " + x + " " + y);
+       // System.out.println("New dir " + xDirection + " " + yDirection);
     }
     
     public void unPass(Nodes node){

@@ -16,8 +16,9 @@ public class AStar {
 
     public ArrayList<Nodes> openList = new ArrayList<Nodes>();
     public ArrayList<Nodes> closeList = new ArrayList<Nodes>();
+    
 
-    public Nodes findPath(int row, Nodes startNode, Nodes endNode, int ox, int oy) {
+    public Nodes findPath(int row, Nodes startNode, Nodes endNode, int ox, int oy, int obx, int oby) {
 
         openList.add(startNode);
 
@@ -27,7 +28,7 @@ public class AStar {
             openList.remove(currentNode);
             closeList.add(currentNode);
 
-            ArrayList<Nodes> neighborNodes = findNeighborNodes(row, currentNode, ox, oy);
+            ArrayList<Nodes> neighborNodes = findNeighborNodes(row, currentNode, ox, oy,obx,oby);
             neighborNodes.forEach((node) -> {
                 if (exists(openList, node)) {
                     inOpenList(currentNode, node);
@@ -53,50 +54,50 @@ public class AStar {
         return tempNode;
     }
 
-    public ArrayList<Nodes> findNeighborNodes(int row, Nodes currentNode,int ox, int oy) {
+    public ArrayList<Nodes> findNeighborNodes(int row, Nodes currentNode,int ox, int oy,int obx, int oby) {
         ArrayList<Nodes> arrayList = new ArrayList<Nodes>();
 
         int topXleft = currentNode.x - 1;
         int topYleft = currentNode.y - 1;
-        if (canPass(topXleft,topYleft,ox,oy) && canReach(row, topXleft, topYleft) && !exists(closeList, topXleft, topYleft)) {
+        if (canReach(row, topXleft, topYleft,ox,oy,obx,oby) && !exists(closeList, topXleft, topYleft)) {
             arrayList.add(new Nodes(topXleft, topYleft));
         }
 
         int topXright = currentNode.x + 1;
         int topYright = currentNode.y - 1;
-        if (canPass(topXright,topYright,ox,oy) && canReach(row, topXright, topYright) && !exists(closeList, topXright, topYright)) {
+        if (canReach(row, topXright, topYright,ox,oy,obx,oby) && !exists(closeList, topXright, topYright)) {
             arrayList.add(new Nodes(topXright, topYright));
         }
 
         int topX = currentNode.x;
         int topY = currentNode.y - 1;
-        if (canPass(topX,topY,ox,oy) && canReach(row, topX, topY) && !exists(closeList, topX, topY)) {
+        if (canReach(row, topX, topY,ox,oy,obx,oby) && !exists(closeList, topX, topY)) {
             arrayList.add(new Nodes(topX, topY));
         }
         int bottomXleft = currentNode.x - 1;
         int bottomYleft = currentNode.y + 1;
-        if (canPass(bottomXleft,bottomYleft,ox,oy) && canReach(row, bottomXleft, bottomYleft) && !exists(closeList, bottomXleft, bottomYleft)) {
+        if (canReach(row, bottomXleft, bottomYleft,ox,oy,obx,oby) && !exists(closeList, bottomXleft, bottomYleft)) {
             arrayList.add(new Nodes(bottomXleft, bottomYleft));
         }
 
         int bottomXright = currentNode.x + 1;
         int bottomYright = currentNode.y + 1;
-        if (canPass(bottomXright,bottomYright,ox,oy) && canReach(row, bottomXright, bottomYright) && !exists(closeList, bottomXright, bottomYright)) {
+        if (canReach(row, bottomXright, bottomYright,ox,oy,obx,oby) && !exists(closeList, bottomXright, bottomYright)) {
             arrayList.add(new Nodes(bottomXright, bottomYright));
         }
         int bottomX = currentNode.x;
         int bottomY = currentNode.y + 1;
-        if (canPass(bottomX,bottomY,ox,oy) && canReach(row, bottomX, bottomY) && !exists(closeList, bottomX, bottomY)) {
+        if ( canReach(row, bottomX, bottomY,ox,oy,obx,oby) && !exists(closeList, bottomX, bottomY)) {
             arrayList.add(new Nodes(bottomX, bottomY));
         }
         int leftX = currentNode.x - 1;
         int leftY = currentNode.y;
-        if (canPass(leftX,leftY,ox,oy) && canReach(row, leftX, leftY) && !exists(closeList, leftX, leftY)) {
+        if (canReach(row, leftX, leftY,ox,oy,obx,oby) && !exists(closeList, leftX, leftY)) {
             arrayList.add(new Nodes(leftX, leftY));
         }
         int rightX = currentNode.x + 1;
         int rightY = currentNode.y;
-        if (canPass(rightX,rightY,ox,oy) && canReach(row, rightX, rightY) && !exists(closeList, rightX, rightY)) {
+        if (canReach(row, rightX, rightY,ox,oy,obx,oby) && !exists(closeList, rightX, rightY)) {
             arrayList.add(new Nodes(rightX, rightY));
         }
         return arrayList;
@@ -111,24 +112,21 @@ public class AStar {
         return null;
     }
 
-    public boolean canReach(int row, int x, int y) {
+    public boolean canReach(int row, int x, int y,int ox, int oy, int obx, int oby) {
 
         if (x >= 0 && x < row && y >= 0 && y < row) {
-            
+            if(x == ox && y == oy){
+                return false;
+            }
+            if(x == obx && y == oby){
+                return false;
+            }      
             return true;
         } else {
             return false;
         }
     }
-      public boolean canPass(int ox, int oy, int x, int y) {
-
-        if (x != ox && y != oy ) {
-            
-            return true;
-        } else {
-            return false;
-        }
-    }
+  
 
     public boolean exists(List<Nodes> nodes, Nodes node) {
         if (nodes.stream().anyMatch((n) -> ((n.x == node.x) && (n.y == node.y)))) {

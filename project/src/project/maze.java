@@ -22,6 +22,7 @@ public class maze {
     private final int squareHeight;
     private GridPane gridPane;
     public Rectangle[][] recs;
+    public Rectangle rectangle;
     public int startx;
     public int starty;
     public int endx;
@@ -68,9 +69,14 @@ public class maze {
             }
         }
         //start point
-        recs[startx][starty].setFill(Color.RED);
+     recs[startx][starty].setFill(Color.RED);
+//        recs[startx][starty].setStroke(Color.RED);
+//        recs[startx][starty].setStrokeWidth(4.0);
+         
         //end point
-        recs[endx][endy].setFill(Color.GREENYELLOW);
+       recs[endx][endy].setFill(Color.GREENYELLOW);
+//        recs[endx][endy].setStroke(Color.GREENYELLOW);
+//        recs[endx][endy].setStrokeWidth(4.0);
         //a position
         recs[ox][oy].setFill(Color.BLUE);
         //b position
@@ -86,9 +92,14 @@ public class maze {
     public void backobstacleColor(int x, int y){
        
         recs[x][y].setFill(lightColor);
+       
+        
     }
     public void changeobstacleColor(int x, int y){
         recs[x][y].setFill(Color.BLUE);
+    }
+    public Rectangle getArectangle(int x, int y){
+        return recs[x][y];
     }
     
 }
