@@ -16,12 +16,10 @@ import javafx.scene.shape.Rectangle;
  */
 public class maze {
 
-    private final int numRows;
-
+    private int numRows;
     private final int boardWidth;
     private final int boardHeight;
     private final int squareHeight;
-
     private GridPane gridPane;
     public Rectangle[][] recs;
     public int startx;
@@ -30,13 +28,14 @@ public class maze {
     public int endy;
     public int ox;
     public int oy;
-   
+    public int obx;
+    public int oby;  
     public int[][] maps;
     private Color lightColor;
     private Color darkColor;
-    public ArrayList<Nodes> walkList;
+    
 
-    public maze(int numRows, int startx, int starty, int endx, int endy, int ox, int oy, int boardWidth, int boardHeight) {
+    public maze(int numRows, int startx, int starty, int endx, int endy, int ox, int oy, int obx, int oby, int boardWidth, int boardHeight) {
         this.numRows = numRows;
         this.startx = startx;
         this.starty = starty;
@@ -44,6 +43,8 @@ public class maze {
         this.endy = endy;
         this.ox = ox;
         this.oy = oy;
+        this.obx = obx;
+        this.oby = oby;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         this.squareHeight = boardHeight / numRows;
@@ -66,44 +67,28 @@ public class maze {
                 gridPane.add(rec, i, j);
             }
         }
-        
+        //start point
         recs[startx][starty].setFill(Color.RED);
+        //end point
         recs[endx][endy].setFill(Color.GREENYELLOW);
+        //a position
         recs[ox][oy].setFill(Color.BLUE);
+        //b position
+        recs[obx][oby].setFill(Color.BLUE);
         
       
         return gridPane;
     }
     
-    
-     public ArrayList<Nodes>  getList() {
-        return walkList;
-    }
- 
     public void changeColor(int x, int y){
         recs[x][y].setFill(Color.CADETBLUE);
     }
     public void backobstacleColor(int x, int y){
+       
         recs[x][y].setFill(lightColor);
     }
     public void changeobstacleColor(int x, int y){
         recs[x][y].setFill(Color.BLUE);
     }
     
-            
-    public GridPane getBoard() {
-        return gridPane;
-    }
-
-    public int getNumRows() {
-        return numRows;
-    }
-
-    public int getWidth() {
-        return boardWidth;
-    }
-
-    public double getSquareHeight() {
-        return squareHeight;
-    }
 }
