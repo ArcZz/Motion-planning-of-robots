@@ -52,15 +52,15 @@ public class Obstacle extends Nodes {
                     x = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
                 }
             }
-        } else {    //xDirection == 1
+        } else if (xDirection == 1) {    //xDirection == 1
             distanceToWall = gridWidth - 1 - x;
             distanceToZero = 2 * gridWidth - 2 - x;
             if (speed >= distanceToZero) {
                 x = Math.abs(speed - distanceToWall);
             } else {
-                if (speed >= distanceToZero) {
+                if ((speed - distanceToZero) >= 0) {
                     x = (speed - distanceToZero) % (gridWidth - 1);
-                } else {    //Java rounds towards zero for modulus operator
+                } else {    //Java rounds towards zero for modulus operator with negative numbers
                     x = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
                 }
             }
@@ -87,15 +87,15 @@ public class Obstacle extends Nodes {
                     y = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
                 }
             }
-        } else {    //yDirection == 1
+        } else if (yDirection == 1) {    //yDirection == 1
             distanceToWall = gridWidth - 1 - y;
             distanceToZero = 2 * gridWidth - 2 - y;
             if (speed >= distanceToZero) {
                 y = Math.abs(speed - distanceToWall);
             } else {
-                if (speed >= distanceToZero) {
+                if ((speed - distanceToZero) >= 0) {
                     y = (speed - distanceToZero) % (gridWidth - 1);
-                } else {    //Java rounds towards zero for modulus operator
+                } else {    //Java rounds towards zero for modulus operator with negative numbers
                     y = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
                 }
             }
@@ -108,6 +108,9 @@ public class Obstacle extends Nodes {
                 yDirection *= -1;
             }
         }
+        
+        System.out.println("New (x,y) " + x + " " + y);
+        System.out.println("New dir " + xDirection + " " + yDirection);
     }
     
     public void unPass(Nodes node){
