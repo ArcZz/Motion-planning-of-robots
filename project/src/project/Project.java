@@ -156,18 +156,18 @@ public class Project extends Application {
             ybDirection = gather.dirSndObX;
           bspeed = gather.spdSndOb;
           //int dir = -1;
-//           System.out.print(gather.gSize);
-//            System.out.print(gather.sFx);
-//             System.out.print(gather.sFy);
-//              System.out.print(gather.eLx);
-//               System.out.print(gather.eLy);
-//                System.out.print(gather.sFstObX);
-//                 System.out.print(gather.sFstObY);
-//           System.out.print(gather.dirFstObX);
-//           System.out.print(gather.dirFstObY);
-//          
-//           System.out.print(gather.dirSndObX);
-//           System.out.print(gather.dirSndObY);
+           System.out.print(gather.gSize);
+            System.out.print(gather.sFx);
+             System.out.print(gather.sFy);
+              System.out.print(gather.eLx);
+               System.out.print(gather.eLy);
+                System.out.print(gather.sFstObX);
+                 System.out.print(gather.sFstObY);
+           System.out.print(gather.dirFstObX);
+           System.out.print(gather.dirFstObY);
+          
+           System.out.print(gather.dirSndObX);
+           System.out.print(gather.dirSndObY);
           
           
           
@@ -272,12 +272,17 @@ public class Project extends Application {
     
     }
   public void reFindPath(int x, int y) {
+       obstaclea.moveOnce();
+        obstacleb.moveOnce();
         int oax = obstaclea.getX();
         int oay = obstaclea.getY();
         int obx = obstacleb.getX();
         int oby = obstacleb.getY();
+        obstaclea.moveBack();
+        obstacleb.moveBack();
      
         startNode = new Nodes(x, y);
+        
         parent = new AStar().findPath(numRows, startNode, endNode,oax,oay,obx,oby);
         walkList.clear();
         while (parent != null) {
@@ -293,10 +298,7 @@ public class Project extends Application {
             
         }
          robot = walkpath.path.get(walkpath.step);
-      
-      
-       
-        
+
       
     }
    
@@ -323,6 +325,7 @@ public class Project extends Application {
         
         }
         else{
+            
             walkpath.step = walkpath.step + 1;
             robot = walkpath.path.get(walkpath.step);
             reFindPath(robot.x,robot.y);
@@ -334,12 +337,9 @@ public class Project extends Application {
     else{
         maze.changeColor(endx,endy);
         time.stop();
+        
         System.out.print("success");
     }
-    
-   
-     
-
 
     }
 
