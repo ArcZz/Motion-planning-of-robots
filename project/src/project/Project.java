@@ -243,7 +243,7 @@ public class Project extends Application {
 
         notend = CheckonthePath(robot.x, endx, robot.y, endy);
         nocoll = checkCollision(robot.x, robot.y);
-        System.out.println("Position of robot ( " + robot.x + "," + robot.y + ")");
+        System.out.println("Position of robot (" + (robot.x+1)  + "," + (robot.y+1) + ")");
        // System.out.print(nocoll);
         if (notend) {
             if (nocoll) {
@@ -283,6 +283,7 @@ public class Project extends Application {
             time.stop();
 
             System.out.print("success");
+            
         }
 
     }
