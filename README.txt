@@ -17,6 +17,7 @@ while avoiding the paths of two moving obstacles.  Otherwise, the robot dies!
 How to run our program:
 
 Open our project in the NetBeans IDE and click Run.
+Wait for the file chooser to open, then continue.
 Locate the test file to run, in this case "room*.txt" which is located in src/project/room.txt from the initial directory.
 Click Open or press the Enter key on your keyboard.
 Enjoy the show.
@@ -30,7 +31,6 @@ room_bad_location.txt
 room_bad_format_parentheses.txt
 room_bad_format_signs.txt
 room_bad_direction.txt
-room_trapped_robot.txt
 room_trapped_end.txt
 
 How to interpret the results:
