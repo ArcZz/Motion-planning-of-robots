@@ -79,9 +79,9 @@ public class Project extends Application {
                  
         String filePath = new File("").getAbsolutePath();
        
-       filename = filePath + "/" + filename;
-        filename = "src/project/room.txt";
-        parse = new ParseTxtFile();
+        filename = filePath + "/" + filename;
+        System.out.println(filename);
+        parse = new ParseTxtFile(); 
        
          file1 = new FileReader(filename);
             if (parse.IsItEmpty(file1) == false){
@@ -143,18 +143,17 @@ public class Project extends Application {
           //First Obstacle
           oax = gather.sFstObY - 1;
           oay = gather.sFstObX - 1;
-          //xaDirection = gather.dirFstObY;
-          xaDirection = -1;
-         // yaDirection = gather.dirFstObX;
-          yaDirection = +1;
+          xaDirection = gather.dirFstObY;
+       
+          yaDirection = gather.dirFstObX;
+     
           aspeed = gather.spdFstOb;
           //Second Obstacle
           obx = gather.sSndObY - 1;
           oby = gather.sSndObX - 1;
-//          xbDirection = gather.dirSndObY;
-            xbDirection = +1;
-            ybDirection = -1;
-//          ybDirection = gather.dirSndObX;
+          xbDirection = gather.dirSndObY;
+          
+            ybDirection = gather.dirSndObX;
           bspeed = gather.spdSndOb;
           //int dir = -1;
 //           System.out.print(gather.gSize);
