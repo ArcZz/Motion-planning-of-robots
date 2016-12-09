@@ -50,6 +50,7 @@ public class Obstacle extends Nodes {
         lastX = x;
         lastY = y;
         lastXDirection = xDirection;
+        lastYDirection = yDirection;
         
         if (xDirection == -1) {
             distanceToWall = distanceToZero = x;
