@@ -83,6 +83,12 @@ public class Parser {
                 bufferedReader.close();
                 fileReader.close();
                 
+                if (linesRead == 0) {
+                    throw new ParseException("Parsing Error Empty File");
+                } else if (linesRead != 9) {
+                    throw new ParseException("Invalid number of lines in input text file");
+                }
+                
             } catch (ParseException pe) {
                 System.out.println(pe.getMessage());
                 System.exit(0);
@@ -127,11 +133,17 @@ public class Parser {
                             break;
                         case 1:
                             if (coordinate == 'x') {
+                                if (robotStartX == 0 && previousChar != '(') {
+                                    throw new ParseException("Parsing Invalid Format");
+                                }
                                 robotStartX = robotStartX * 10 + value;
                                 if (robotStartX < 1 || robotStartX > roomSize) {
                                     throw new ParseException("Invalid robotStartX");
                                 }
                             } else {
+                                if (robotStartY == 0 && previousChar != ',') {
+                                    throw new ParseException("Parsing Invalid Format");
+                                }
                                 robotStartY = robotStartY * 10 + value;
                                 if (robotStartY < 1 || robotStartY > roomSize) {
                                     throw new ParseException("Invalid robotStartY");
@@ -140,11 +152,17 @@ public class Parser {
                             break;
                         case 2:
                             if (coordinate == 'x') {
+                                if (robotEndX == 0 && previousChar != '(') {
+                                    throw new ParseException("Parsing Invalid Format");
+                                }
                                 robotEndX = robotEndX * 10 + value;
                                 if (robotEndX < 1 || robotEndX > roomSize) {
                                     throw new ParseException("Invalid robotEndX");
                                 }
                             } else {
+                                if (robotEndY == 0 && previousChar != ',') {
+                                    throw new ParseException("Parsing Invalid Format");
+                                }
                                 robotEndY = robotEndY * 10 + value;
                                 if (robotEndY < 1 || robotEndY > roomSize) {
                                     throw new ParseException("Invalid robotEndY");
@@ -153,11 +171,17 @@ public class Parser {
                             break;
                         case 3:
                             if (coordinate == 'x') {
+                                if (obstacle1X == 0 && previousChar != '(') {
+                                    throw new ParseException("Parsing Invalid Format");
+                                }
                                 obstacle1X = obstacle1X * 10 + value;
                                 if (obstacle1X < 1 || obstacle1X > roomSize) {
                                     throw new ParseException("Invalid obstacle1X");
                                 }
                             } else {
+                                if (obstacle1Y == 0 && previousChar != ',') {
+                                    throw new ParseException("Parsing Invalid Format");
+                                }
                                 obstacle1Y = obstacle1Y * 10 + value;
                                 if (obstacle1Y < 1 || obstacle1Y > roomSize) {
                                     throw new ParseException("Invalid obstacle1Y");
@@ -166,9 +190,9 @@ public class Parser {
                             break;
                         case 4:
                             obstacle1Speed = obstacle1Speed * 10 + value;
-                                if (obstacle1Speed < 0 || obstacle1Speed > roomSize) {
-                                    throw new ParseException("Invalid obstacle1Speed");
-                                }
+                            if (obstacle1Speed < 0 || obstacle1Speed > roomSize) {
+                                throw new ParseException("Invalid obstacle1Speed");
+                            }
                             break;
                         case 5:
                             if (value == 0 || value == 1) {
@@ -183,11 +207,17 @@ public class Parser {
                             break;
                         case 6:
                             if (coordinate == 'x') {
+                                if (obstacle2X == 0 && previousChar != '(') {
+                                    throw new ParseException("Parsing Invalid Format");
+                                }
                                 obstacle2X = obstacle2X * 10 + value;
                                 if (obstacle2X < 1 || obstacle2X > roomSize) {
                                     throw new ParseException("Invalid obstacle2X");
                                 }
                             } else {
+                                if (obstacle2Y == 0 && previousChar != ',') {
+                                    throw new ParseException("Parsing Invalid Format");
+                                }
                                 obstacle2Y = obstacle2Y * 10 + value;
                                 if (obstacle2Y < 1 || obstacle2Y > roomSize) {
                                     throw new ParseException("Invalid obstacle2Y");
@@ -196,9 +226,9 @@ public class Parser {
                             break;
                         case 7:
                             obstacle2Speed = obstacle2Speed * 10 + value;
-                                if (obstacle2Speed < 0 || obstacle2Speed > roomSize) {
-                                    throw new ParseException("Invalid obstacle2Speed");
-                                }
+                            if (obstacle2Speed < 0 || obstacle2Speed > roomSize) {
+                                throw new ParseException("Invalid obstacle2Speed");
+                            }
                             break;
                         case 8:
                             if (value == 0 || value == 1) {
@@ -232,6 +262,8 @@ public class Parser {
                         } else {
                             throw new ParseException("Parsing Invalid Format");
                         }
+                    } else {
+                        throw new ParseException("Parsing Invalid Format");
                     }
                     break;
                 case '-':
@@ -251,6 +283,8 @@ public class Parser {
                         } else {
                             throw new ParseException("Parsing Invalid Format");
                         }
+                    } else {
+                        throw new ParseException("Parsing Invalid Format");
                     }
                     break;
                 case '(':
