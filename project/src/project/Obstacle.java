@@ -40,6 +40,8 @@ public class Obstacle extends Nodes {
         this.gridWidth = gridWidth;
         this.lastX = x;
         this.lastY = y;
+        this.lastXDirection = xDirection;
+        this.lastYDirection = yDirection;
     }
     public void hitwall(int x, int y){
         x++;
@@ -57,29 +59,35 @@ public class Obstacle extends Nodes {
             if (speed < distanceToWall) {
                 x = Math.abs(speed - distanceToZero);
             } else {
-                if (speed >= distanceToZero) {
-                    x = (speed - distanceToZero) % (gridWidth - 1);
+                if ((speed - distanceToWall) >= 0) {
+                    x = (speed - distanceToWall) % (gridWidth);
                 } else {    //Java rounds towards zero for modulus operator
-                    x = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
+                    x = ((speed - distanceToWall) % (gridWidth) + gridWidth) % gridWidth;
                 }
             }
         } else if (xDirection == 1) {    //xDirection == 1
             distanceToWall = gridWidth - 1 - x;
             distanceToZero = 2 * gridWidth - 2 - x;
-            if (speed >= distanceToZero) {
-                x = Math.abs(speed - distanceToWall);
+            if (speed >= distanceToWall) {
+                x = Math.abs(speed - distanceToZero);
             } else {
-                if ((speed - distanceToZero) >= 0) {
-                    x = (speed - distanceToZero) % (gridWidth - 1);
+                x += speed;
+                /*
+                if ((speed - distanceToWall) >= 0) {
+                    x = (speed - distanceToWall) % (gridWidth);
                 } else {    //Java rounds towards zero for modulus operator with negative numbers
-                    x = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
+                    x = ((speed - distanceToWall) % (gridWidth) + gridWidth) % gridWidth;
                 }
+                */
             }
         }
         
         wallHits = 0;
         if (speed >= distanceToWall) {
-            wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
+            wallHits = (speed + lastX) / gridWidth;
+            if (xDirection == -1) {
+                ++wallHits;
+            }
             if ((wallHits % 2) == 1) {
                 xDirection *= -1;
             }
@@ -92,29 +100,35 @@ public class Obstacle extends Nodes {
             if (speed < distanceToWall) {
                 y = Math.abs(speed - distanceToZero);
             } else {
-                if (speed >= distanceToZero) {
-                    y = (speed - distanceToZero) % (gridWidth - 1);
+                if ((speed - distanceToWall) >= 0) {
+                    y = (speed - distanceToWall) % (gridWidth);
                 } else {    //Java rounds towards zero for modulus operator
-                    y = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
+                    y = ((speed - distanceToWall) % (gridWidth) + gridWidth) % gridWidth;
                 }
             }
-        } else if (yDirection == 1) {    //yDirection == 1
+        } else if (yDirection == 1) {    //xDirection == 1
             distanceToWall = gridWidth - 1 - y;
             distanceToZero = 2 * gridWidth - 2 - y;
-            if (speed >= distanceToZero) {
-                y = Math.abs(speed - distanceToWall);
+            if (speed >= distanceToWall) {
+                y = Math.abs(speed - distanceToZero);
             } else {
-                if ((speed - distanceToZero) >= 0) {
-                    y = (speed - distanceToZero) % (gridWidth - 1);
+                y += speed;
+                /*
+                if ((speed - distanceToWall) >= 0) {
+                    y = (speed - distanceToWall) % (gridWidth);
                 } else {    //Java rounds towards zero for modulus operator with negative numbers
-                    y = (speed - distanceToZero) % (gridWidth - 1) + gridWidth - 1;
+                    y = ((speed - distanceToWall) % (gridWidth) + gridWidth) % gridWidth;
                 }
+                */
             }
         }
         
         wallHits = 0;
         if (speed >= distanceToWall) {
-            wallHits = (speed - distanceToWall) % (gridWidth - 1) + 1;
+            wallHits = (speed + lastY) / gridWidth;
+            if (yDirection == -1) {
+                ++wallHits;
+            }
             if ((wallHits % 2) == 1) {
                 yDirection *= -1;
             }
