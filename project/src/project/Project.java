@@ -230,7 +230,7 @@ public class Project extends Application {
         walkpath.step = walkpath.step - 1;
         
         if (walkpath.step < 0) {
-            System.out.print("uable to generate a map");
+            System.out.print("uable to generate a path");
             System.exit(0);
 
         }
