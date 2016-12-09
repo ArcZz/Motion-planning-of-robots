@@ -29,6 +29,8 @@ public class Obstacle extends Nodes {
     
     private int lastX;
     private int lastY;
+    private int lastXDirection;
+    private int lastYDirection;
 
     public Obstacle(int x, int y, int speed, int xDirection, int yDirection, int gridWidth) {
         super(x, y);
@@ -47,6 +49,7 @@ public class Obstacle extends Nodes {
         //get new x-coordinate and direction
         lastX = x;
         lastY = y;
+        lastXDirection = xDirection;
         
         if (xDirection == -1) {
             distanceToWall = distanceToZero = x;
@@ -135,5 +138,7 @@ public class Obstacle extends Nodes {
     public void moveBack() {
         x = lastX;
         y = lastY;
+        xDirection = lastXDirection;
+        yDirection = lastYDirection;
     }
 }
