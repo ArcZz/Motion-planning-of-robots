@@ -38,7 +38,8 @@ public class Project extends Application {
     public maze maze;
     public Timeline time;
     public boolean pass = true;
-     public boolean notend = true;
+    public boolean notend = true;
+    public boolean nocoll = true;
     public Nodes robot;
     public Nodes startNode;
     public Nodes endNode;
@@ -142,15 +143,34 @@ public class Project extends Application {
           //First Obstacle
           oax = gather.sFstObY - 1;
           oay = gather.sFstObX - 1;
-          xaDirection = gather.dirFstObY;
-          yaDirection = gather.dirFstObX;
+          //xaDirection = gather.dirFstObY;
+          xaDirection = -1;
+         // yaDirection = gather.dirFstObX;
+          yaDirection = -1;
           aspeed = gather.spdFstOb;
           //Second Obstacle
           obx = gather.sSndObY - 1;
           oby = gather.sSndObX - 1;
-          xbDirection = gather.dirSndObY;
-          ybDirection = gather.dirSndObX;
+//          xbDirection = gather.dirSndObY;
+            xbDirection = +1;
+            ybDirection = -1;
+//          ybDirection = gather.dirSndObX;
           bspeed = gather.spdSndOb;
+          //int dir = -1;
+//           System.out.print(gather.gSize);
+//            System.out.print(gather.sFx);
+//             System.out.print(gather.sFy);
+//              System.out.print(gather.eLx);
+//               System.out.print(gather.eLy);
+//                System.out.print(gather.sFstObX);
+//                 System.out.print(gather.sFstObY);
+//           System.out.print(gather.dirFstObX);
+//           System.out.print(gather.dirFstObY);
+//          
+//           System.out.print(gather.dirSndObX);
+//           System.out.print(gather.dirSndObY);
+          
+          
           
         maze = new maze(numRows, startx, starty, endx, endy, oax, oay, obx, oby, boardWidth, boardHeight);
         //System.out.print(numRows);
@@ -164,14 +184,22 @@ public class Project extends Application {
             System.out.println(parent.x + ", " + parent.y);
             walkList.add(new Nodes(parent.x, parent.y));
             parent = parent.parent;
-        }      
-        step = walkList.size() - 1;   
+        }     
+    
+        step = walkList.size() - 1; 
+        
          //System.out.println(step);
         walkpath = new Path(walkList, step);
         obstaclea = new Obstacle(oax, oay, aspeed, xaDirection, yaDirection, numRows);
         obstacleb = new Obstacle(obx, oby, bspeed, xbDirection, ybDirection, numRows);
+        walkpath.step = walkpath.step - 1;
+        if(walkpath.step < 0){
+            System.out.print("uable to generate a map");
+             System.exit(0);
+            
+        }
         robot = walkpath.path.get(walkpath.step);
-      
+       
        
         GridPane grid = maze.build();
         Scene scene = new Scene(grid);
@@ -181,21 +209,35 @@ public class Project extends Application {
         primaryStage.show();
 
        
-        time = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> update()));
+        time = new Timeline(new KeyFrame(Duration.seconds(2), actionEvent -> update()));
         time.setCycleCount(Animation.INDEFINITE);
         time.play();
 
     }
 
 
-    public boolean checkCollision(int x, int ox, int y, int oy) {
-        if (x == ox && y == oy) {
-            return true;
-        } else {
+    public boolean checkCollision(int x,  int y) {
+        obstaclea.moveOnce();
+        obstacleb.moveOnce();
+        int oax = obstaclea.getX();
+        int oay = obstaclea.getY();
+        int obx = obstacleb.getX();
+        int oby = obstacleb.getY();
+        obstaclea.moveBack();
+        obstacleb.moveBack();
+        if (x == oax && y == oay) {
+            
+            return false;
+        }
+        if (x == obx && y == oby ){
+             return false;
+        }
+        else {
             return true;
         }
     }
      public boolean CheckonthePath(int x, int endx, int y, int endy) {
+         
         if (x == endx && y == endy) {
             return false;
         } else {
@@ -230,7 +272,7 @@ public class Project extends Application {
        
     
     }
-//   public Path reFindPath(int x, int y, int ox, int oy) {
+//  public Path reFindPath(int x, int y) {
 //       
 //        startNode = new Nodes(x, y);
 //        parent = new AStar().findPath(numRows, startNode, endNode,ox,oy);
@@ -248,20 +290,60 @@ public class Project extends Application {
 //    }
    
 
-    public void update() {
-//             movea();
-//             moveb();
-             notend = CheckonthePath(robot.x,endx,robot.y,endy);
-               
-           robot = walkpath.path.get(0);
-           maze.changeColor(robot.x,robot.y);
-           robot = walkpath.path.get(1);
-           maze.changeColor(robot.x,robot.y);
-           robot = walkpath.path.get(2);
-           maze.changeColor(robot.x,robot.y);
-           robot = walkpath.path.get(3);
-           maze.changeColor(robot.x,robot.y);
-          
+    public void update() {  
+        
+//        obstaclea.moveOnce();
+//        System.out.print("test moveonce" );
+//        System.out.print(obstaclea.x );
+//         System.out.print(obstaclea.y );
+//        obstaclea.moveBack();
+//         System.out.print("test moveback" );
+//        System.out.print(obstaclea.x );
+//         System.out.print(obstaclea.y );
+    notend = CheckonthePath(robot.x,endx,robot.y,endy);
+    nocoll = checkCollision(robot.x,robot.y);
+    System.out.print(nocoll);
+    if(notend){
+        if(nocoll){
+        
+        //next step of robot
+        //robot = walkpath.path.get(walkpath.step-1);
+        //go aheah and change color
+        maze.changeColor(robot.x,robot.y);
+       //  movea();
+       //  moveb();
+        //get the next round for robot
+        if(walkpath.step != 0){
+          walkpath.step--;
+         }
+         robot = walkpath.path.get(walkpath.step);}
+        else{
+         walkpath.step = walkpath.step + 1;
+        robot = walkpath.path.get(walkpath.step);
+        
+        
+        }
+       
+       
+     
+     } 
+    else{
+        maze.changeColor(endx,endy);
+        time.stop();
+        System.out.print("success");
+    }
+    
+   
+     
+         
+ //          maze.changeColor(robot.x,robot.y); 
+//           robot = walkpath.path.get(1);
+//           maze.changeColor(robot.x,robot.y);
+//           robot = walkpath.path.get(2);
+//           maze.changeColor(robot.x,robot.y);
+//           robot = walkpath.path.get(3);
+//           maze.changeColor(robot.x,robot.y);
+//          
         
              //System.out.println(notend);
              

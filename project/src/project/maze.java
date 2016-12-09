@@ -69,12 +69,12 @@ public class maze {
             }
         }
         //start point
-     recs[startx][starty].setFill(Color.RED);
+     recs[startx][starty].setFill(Color.GOLD);
 //        recs[startx][starty].setStroke(Color.RED);
 //        recs[startx][starty].setStrokeWidth(4.0);
          
         //end point
-       recs[endx][endy].setFill(Color.GREENYELLOW);
+       recs[endx][endy].setFill(Color.CHARTREUSE);
 //        recs[endx][endy].setStroke(Color.GREENYELLOW);
 //        recs[endx][endy].setStrokeWidth(4.0);
         //a position
@@ -87,7 +87,7 @@ public class maze {
     }
     
     public void changeColor(int x, int y){
-        recs[x][y].setFill(Color.CADETBLUE);
+        recs[x][y].setFill(Color.GOLD);
     }
     public void backobstacleColor(int x, int y){
        
