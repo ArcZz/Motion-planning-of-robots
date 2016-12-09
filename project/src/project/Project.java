@@ -80,7 +80,7 @@ public class Project extends Application {
   
         FileChooser fileChooser = new FileChooser();
         URI thisFilePath = Project.class.getProtectionDomain().getCodeSource().getLocation().toURI();
-        fileChooser.setInitialDirectory(new File(thisFilePath).getParentFile().getParentFile().getParentFile());
+        fileChooser.setInitialDirectory(new File(thisFilePath).getParentFile().getParentFile().getParentFile().getParentFile().getParentFile());
         file = fileChooser.showOpenDialog(primaryStage);
         
         Parser parser = new Parser();
