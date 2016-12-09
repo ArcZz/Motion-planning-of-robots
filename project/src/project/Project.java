@@ -77,8 +77,7 @@ public class Project extends Application {
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException, IOException, URISyntaxException {
 
-        //String filePath = new File("").getAbsolutePath();
-        // filename = filePath + "/" + filename;
+  
         FileChooser fileChooser = new FileChooser();
         URI thisFilePath = Project.class.getProtectionDomain().getCodeSource().getLocation().toURI();
         fileChooser.setInitialDirectory(new File(thisFilePath).getParentFile().getParentFile().getParentFile());
@@ -86,99 +85,7 @@ public class Project extends Application {
         
         Parser parser = new Parser();
         parser.parseFile(file);
-        /*
-        //filename = "src/project/room.txt";
-        parse = new ParseTxtFile();
-
-        // file1 = new FileReader(filename);
-        file1 = new FileReader(file);
-        if (parse.IsItEmpty(file1) == false) {
-            System.out.print("\nThe file is empty.\n");
-            file1.close();//I need to close the file
-            System.exit(0);
-        }
-
-        //file2 = new FileReader(filename);
-        file2 = new FileReader(file);
-        if (parse.CorrectNumLines(file2) == false) {
-            System.out.print("\nWrong format: error 1\n");
-            file2.close();//again
-            System.exit(0);
-        }
-
-        //file3 = new FileReader(filename);
-        file3 = new FileReader(file);
-        if (parse.IsItValid(file3) == false) {
-            System.out.print("\nWrong format: error 2\n");
-            file3.close();//again
-            System.exit(0);
-        }
-        System.out.print("\nParsing complete.\n");
-
-        gather = new Gather();
-        //If this was c, then I would rewind the file then.
-
-        //file4 = new FileReader(filename);
-        file4 = new FileReader(file);
-        gather.collectYourData(file4);//again
-
-        /*
-    //robot F
-    public int sFx;//Robot F starting location X
-    public int sFy;//Robot F starting location Y
-    //robot L
-    public int eLx;//Robot L exiting location X
-    public int eLy;//Robot L exiting location Y
-    //First Obstacle
-    public int sFstObX;//1st obstacle starting location X
-    public int sFstObY;//1st obstacle starting location Y
-    public int spdFstOb;//speed of the 1st obstacle
-    public int dirFstObX;//direction X of the 1st obstacle
-    public int dirFstObY;//direction Y of the 1st obstacle
-    //Second Obstacle
-    public int sSndObX;//2nd obstacle starting location X
-    public int sSndObY;//2nd obstacle starting location Y
-    public int spdSndOb;//speed of the 2nd obstacle
-    public int dirSndObX;//direction X of the 2nd obstacle
-    public int dirSndObY;//direction Y of the 2nd obstacle
          
-        numRows = gather.gSize;
-        //robot F
-        startx = gather.sFy - 1;
-        starty = gather.sFx - 1;
-        //robot L
-        endx = gather.eLy - 1;
-        endy = gather.eLx - 1;
-        //First Obstacle
-        oax = gather.sFstObY - 1;
-        oay = gather.sFstObX - 1;
-        xaDirection = gather.dirFstObY;
-
-        yaDirection = gather.dirFstObX;
-
-        aspeed = gather.spdFstOb;
-        //Second Obstacle
-        obx = gather.sSndObY - 1;
-        oby = gather.sSndObX - 1;
-        xbDirection = gather.dirSndObY;
-
-        ybDirection = gather.dirSndObX;
-        bspeed = gather.spdSndOb;
-        //int dir = -1;
-        
-        System.out.print(gather.gSize);
-        System.out.print(gather.sFx);
-        System.out.print(gather.sFy);
-        System.out.print(gather.eLx);
-        System.out.print(gather.eLy);
-        System.out.print(gather.sFstObX);
-        System.out.print(gather.sFstObY);
-        System.out.print("xxxx" + gather.dirFstObX);
-        System.out.print("yyy" + gather.dirFstObY);
-
-        System.out.print(gather.dirSndObX);
-        System.out.print(gather.dirSndObY);
-        */
         numRows = parser.getRoomSize();
         //robot F
         startx = parser.getRobotStartY() - 1;
@@ -199,7 +106,8 @@ public class Project extends Application {
         ybDirection = parser.getObstacle2XDirection();
         bspeed = parser.getObstacle2Speed();
         
-        parser.printOutput();
+        //parser.printOutput();
+
         
         maze = new maze(numRows, startx, starty, endx, endy, oax, oay, obx, oby, boardWidth, boardHeight);
 
@@ -216,7 +124,7 @@ public class Project extends Application {
 
         step = walkList.size() - 1;
 
-        //System.out.println(step);
+        
         walkpath = new Path(walkList, step);
         obstaclea = new Obstacle(oax, oay, aspeed, xaDirection, yaDirection, numRows);
         obstacleb = new Obstacle(obx, oby, bspeed, xbDirection, ybDirection, numRows);
@@ -308,61 +216,74 @@ public class Project extends Application {
         obstacleb.moveBack();
 
         startNode = new Nodes(x, y);
-
+            
         parent = new AStar().findPath(numRows, startNode, endNode, oax, oay, obx, oby);
-        walkList.clear();
+        walkpath.path.clear();
         while (parent != null) {
             System.out.println(parent.x + "real, " + parent.y);
-            walkList.add(new Nodes(parent.x, parent.y));
+            walkpath.path.add(new Nodes(parent.x, parent.y));
             parent = parent.parent;
         }
-        step = walkList.size() - 1;
+        walkpath.step = walkpath.path.size() - 1;
+         robot = walkpath.path.get(walkpath.step);
+          System.out.print("this is for test " + robot.x + robot.y);
         walkpath.step = walkpath.step - 1;
+        
         if (walkpath.step < 0) {
             System.out.print("uable to generate a map");
             System.exit(0);
 
         }
         robot = walkpath.path.get(walkpath.step);
+       // maze.changeColor(robot.x, robot.y);
 
     }
 
     public void update() {
-
-        notend = CheckonthePath(robot.x, endx, robot.y, endy);
-        nocoll = checkCollision(robot.x, robot.y);
-        System.out.print(nocoll);
-        if (notend) {
-            if (nocoll) {
-
-                //next step of robot
-                //robot = walkpath.path.get(walkpath.step-1);
-                //go aheah and change color
-                maze.changeColor(robot.x, robot.y);
-                movea();
-                moveb();
-                //get the next round for robot
-                if (walkpath.step != 0) {
-                    walkpath.step--;
-                }
-                robot = walkpath.path.get(walkpath.step);
-
-            } else {
-                if (walkpath.step > walkpath.path.size()) {
-
-                    System.out.print("cant find path");
-                }
-                walkpath.step = walkpath.step + 1;
-                robot = walkpath.path.get(walkpath.step);
-                reFindPath(robot.x, robot.y);
-            }
-
-        } else {
-            maze.changeColor(endx, endy);
-            time.stop();
-
-            System.out.print("success");
-        }
+movea();
+               moveb();
+//        notend = CheckonthePath(robot.x, endx, robot.y, endy);
+//        nocoll = checkCollision(robot.x, robot.y);
+//        System.out.print(nocoll);
+//        if (notend) {
+//            if (nocoll) {
+//
+//                //next step of robot
+//                //robot = walkpath.path.get(walkpath.step-1);
+//                //go aheah and change color
+//                maze.changeColor(robot.x, robot.y);
+//                movea();
+//                moveb();
+//                //get the next round for robot
+//                if (walkpath.step != 0) {
+//                    walkpath.step--;
+//                }
+//                robot = walkpath.path.get(walkpath.step);
+//
+//            } else {
+//                
+//                if (walkpath.step > walkpath.path.size()) {
+//
+//                    System.out.print("cant find path");
+//                    time.stop();
+//
+//                }
+//                walkpath.step = walkpath.step + 1;
+//               
+//                robot = walkpath.path.get(walkpath.step);
+//                 
+//                reFindPath(robot.x, robot.y);
+//              
+//                ///maze.changeColor(robot.x, robot.y);
+//                //robot = walkpath.path.get(walkpath.step);
+//            }
+//
+//        } else {
+//            maze.changeColor(endx, endy);
+//            time.stop();
+//
+//            System.out.print("success");
+//        }
 
     }
 
