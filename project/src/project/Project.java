@@ -117,7 +117,7 @@ public class Project extends Application {
 
         walkList = new ArrayList<Nodes>();
         while (parent != null) {
-            System.out.println(parent.x + ", " + parent.y);
+            //System.out.println(parent.x + ", " + parent.y);
             walkList.add(new Nodes(parent.x, parent.y));
             parent = parent.parent;
         }
@@ -143,7 +143,7 @@ public class Project extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        time = new Timeline(new KeyFrame(Duration.seconds(3), actionEvent -> update()));
+        time = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> update()));
         time.setCycleCount(Animation.INDEFINITE);
         time.play();
 
@@ -220,13 +220,13 @@ public class Project extends Application {
         parent = new AStar().findPath(numRows, startNode, endNode, oax, oay, obx, oby);
         walkpath.path.clear();
         while (parent != null) {
-            System.out.println(parent.x + "real, " + parent.y);
+           // System.out.println(parent.x + "real, " + parent.y);
             walkpath.path.add(new Nodes(parent.x, parent.y));
             parent = parent.parent;
         }
         walkpath.step = walkpath.path.size() - 1;
-         robot = walkpath.path.get(walkpath.step);
-          System.out.print("this is for test " + robot.x + robot.y);
+         //robot = walkpath.path.get(walkpath.step);
+         // System.out.print("this is for test " + robot.x + robot.y);
         walkpath.step = walkpath.step - 1;
         
         if (walkpath.step < 0) {
@@ -240,50 +240,50 @@ public class Project extends Application {
     }
 
     public void update() {
-movea();
-               moveb();
-//        notend = CheckonthePath(robot.x, endx, robot.y, endy);
-//        nocoll = checkCollision(robot.x, robot.y);
-//        System.out.print(nocoll);
-//        if (notend) {
-//            if (nocoll) {
-//
-//                //next step of robot
-//                //robot = walkpath.path.get(walkpath.step-1);
-//                //go aheah and change color
-//                maze.changeColor(robot.x, robot.y);
-//                movea();
-//                moveb();
-//                //get the next round for robot
-//                if (walkpath.step != 0) {
-//                    walkpath.step--;
-//                }
-//                robot = walkpath.path.get(walkpath.step);
-//
-//            } else {
-//                
-//                if (walkpath.step > walkpath.path.size()) {
-//
-//                    System.out.print("cant find path");
-//                    time.stop();
-//
-//                }
-//                walkpath.step = walkpath.step + 1;
-//               
-//                robot = walkpath.path.get(walkpath.step);
-//                 
-//                reFindPath(robot.x, robot.y);
-//              
-//                ///maze.changeColor(robot.x, robot.y);
-//                //robot = walkpath.path.get(walkpath.step);
-//            }
-//
-//        } else {
-//            maze.changeColor(endx, endy);
-//            time.stop();
-//
-//            System.out.print("success");
-//        }
+
+        notend = CheckonthePath(robot.x, endx, robot.y, endy);
+        nocoll = checkCollision(robot.x, robot.y);
+        System.out.println("Position of robot ( " + robot.x + "," + robot.y + ")");
+       // System.out.print(nocoll);
+        if (notend) {
+            if (nocoll) {
+
+                //next step of robot
+                //robot = walkpath.path.get(walkpath.step-1);
+                //go aheah and change color
+                maze.changeColor(robot.x, robot.y);
+                movea();
+                moveb();
+                //get the next round for robot
+                if (walkpath.step != 0) {
+                    walkpath.step--;
+                }
+                robot = walkpath.path.get(walkpath.step);
+
+            } else {
+                
+                if (walkpath.step > walkpath.path.size()) {
+
+                    System.out.print("cant find path");
+                    time.stop();
+
+                }
+                walkpath.step = walkpath.step + 1;
+               
+                robot = walkpath.path.get(walkpath.step);
+                 
+                reFindPath(robot.x, robot.y);
+              
+                ///maze.changeColor(robot.x, robot.y);
+                //robot = walkpath.path.get(walkpath.step);
+            }
+
+        } else {
+            maze.changeColor(endx, endy);
+            time.stop();
+
+            System.out.print("success");
+        }
 
     }
 

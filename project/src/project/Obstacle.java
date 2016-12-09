@@ -109,17 +109,12 @@ public class Obstacle extends Nodes {
         } else if (yDirection == 1) {    //xDirection == 1
             distanceToWall = gridWidth - 1 - y;
             distanceToZero = 2 * gridWidth - 2 - y;
+
             if (speed >= distanceToWall) {
                 y = Math.abs(speed - distanceToZero);
             } else {
                 y += speed;
-                /*
-                if ((speed - distanceToWall) >= 0) {
-                    y = (speed - distanceToWall) % (gridWidth);
-                } else {    //Java rounds towards zero for modulus operator with negative numbers
-                    y = ((speed - distanceToWall) % (gridWidth) + gridWidth) % gridWidth;
-                }
-                */
+           
             }
         }
         
@@ -155,5 +150,9 @@ public class Obstacle extends Nodes {
         y = lastY;
         xDirection = lastXDirection;
         yDirection = lastYDirection;
+    }
+    public int moe(int x, int y){
+        return (x%y+y)%y;
+    
     }
 }
