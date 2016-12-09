@@ -209,7 +209,7 @@ public class Project extends Application {
         primaryStage.show();
 
        
-        time = new Timeline(new KeyFrame(Duration.seconds(2), actionEvent -> update()));
+        time = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> update()));
         time.setCycleCount(Animation.INDEFINITE);
         time.play();
 
@@ -272,34 +272,38 @@ public class Project extends Application {
        
     
     }
-//  public Path reFindPath(int x, int y) {
-//       
-//        startNode = new Nodes(x, y);
-//        parent = new AStar().findPath(numRows, startNode, endNode,ox,oy);
-//        
-//        walkList.clear();
-//        while (parent != null) {
-//            //System.out.println(parent.x + ", " + parent.y);
-//            walkList.add(new Nodes(parent.x, parent.y));
-//            parent = parent.parent;
-//        }
-//        step = walkList.size() - 1;
-//        path = new Path(walkList, step);
-//        
-//        return path;
-//    }
+  public void reFindPath(int x, int y) {
+        int oax = obstaclea.getX();
+        int oay = obstaclea.getY();
+        int obx = obstacleb.getX();
+        int oby = obstacleb.getY();
+     
+        startNode = new Nodes(x, y);
+        parent = new AStar().findPath(numRows, startNode, endNode,oax,oay,obx,oby);
+        walkList.clear();
+        while (parent != null) {
+            System.out.println(parent.x + ", " + parent.y);
+            walkList.add(new Nodes(parent.x, parent.y));
+            parent = parent.parent;
+        } 
+          step = walkList.size() - 1;
+        walkpath.step = walkpath.step - 1;
+        if(walkpath.step < 0){
+            System.out.print("uable to generate a map");
+             System.exit(0);
+            
+        }
+         robot = walkpath.path.get(walkpath.step);
+      
+      
+       
+        
+      
+    }
    
 
     public void update() {  
         
-//        obstaclea.moveOnce();
-//        System.out.print("test moveonce" );
-//        System.out.print(obstaclea.x );
-//         System.out.print(obstaclea.y );
-//        obstaclea.moveBack();
-//         System.out.print("test moveback" );
-//        System.out.print(obstaclea.x );
-//         System.out.print(obstaclea.y );
     notend = CheckonthePath(robot.x,endx,robot.y,endy);
     nocoll = checkCollision(robot.x,robot.y);
     System.out.print(nocoll);
@@ -310,18 +314,17 @@ public class Project extends Application {
         //robot = walkpath.path.get(walkpath.step-1);
         //go aheah and change color
         maze.changeColor(robot.x,robot.y);
-       //  movea();
-       //  moveb();
+         movea();
+         moveb();
         //get the next round for robot
         if(walkpath.step != 0){
           walkpath.step--;
          }
          robot = walkpath.path.get(walkpath.step);}
         else{
-         walkpath.step = walkpath.step + 1;
-        robot = walkpath.path.get(walkpath.step);
-        
-        
+            walkpath.step = walkpath.step + 1;
+            robot = walkpath.path.get(walkpath.step);
+            reFindPath(robot.x,robot.y);
         }
        
        
