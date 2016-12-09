@@ -360,6 +360,7 @@ public class Gather {//This is similar to ParseTxtFile.java
                             dirFstObY = 1;
                         }
                     }
+                    n++;
                 }
             }
         }
