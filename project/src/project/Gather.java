@@ -318,6 +318,7 @@ public class Gather {//This is similar to ParseTxtFile.java
                 while (n < 2){
                     if (String.valueOf(second).equals(direction[n])){
                         if (n == 0){
+                            System.out.print("hahah");
                             dirFstObY = -1;
                         } else {
                             dirFstObY = 1;
