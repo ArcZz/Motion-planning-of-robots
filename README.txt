@@ -18,7 +18,7 @@ How to run our program:
 
 Open our project in the NetBeans IDE and open the Project.java file, our main project file, and click Run.
 Wait for the file chooser to open, then continue.
-Locate the test file to run, in this case "room*.txt" which is located in src/project/room.txt from the initial directory.
+Locate the test file to run, in this case "room*.txt" which is located in the folder "testfile" from the initial directory.
 Click Open or press the Enter key on your keyboard.
 Enjoy the show.
 
