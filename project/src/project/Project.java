@@ -77,9 +77,9 @@ public class Project extends Application {
         
             
                  
-        //String filePath = new File("").getAbsolutePath();
+        String filePath = new File("").getAbsolutePath();
        
-       // filename = filePath + "/" + filename;
+       filename = filePath + "/" + filename;
         filename = "src/project/room.txt";
         parse = new ParseTxtFile();
        
@@ -146,7 +146,7 @@ public class Project extends Application {
           //xaDirection = gather.dirFstObY;
           xaDirection = -1;
          // yaDirection = gather.dirFstObX;
-          yaDirection = -1;
+          yaDirection = +1;
           aspeed = gather.spdFstOb;
           //Second Obstacle
           obx = gather.sSndObY - 1;
@@ -173,7 +173,7 @@ public class Project extends Application {
           
           
         maze = new maze(numRows, startx, starty, endx, endy, oax, oay, obx, oby, boardWidth, boardHeight);
-        //System.out.print(numRows);
+      
         
         startNode = new Nodes(startx, starty);
         endNode = new Nodes(endx, endy);
@@ -209,7 +209,7 @@ public class Project extends Application {
         primaryStage.show();
 
        
-        time = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> update()));
+        time = new Timeline(new KeyFrame(Duration.seconds(3), actionEvent -> update()));
         time.setCycleCount(Animation.INDEFINITE);
         time.play();
 
@@ -282,7 +282,7 @@ public class Project extends Application {
         parent = new AStar().findPath(numRows, startNode, endNode,oax,oay,obx,oby);
         walkList.clear();
         while (parent != null) {
-            System.out.println(parent.x + ", " + parent.y);
+            System.out.println(parent.x + "real, " + parent.y);
             walkList.add(new Nodes(parent.x, parent.y));
             parent = parent.parent;
         } 
@@ -320,7 +320,9 @@ public class Project extends Application {
         if(walkpath.step != 0){
           walkpath.step--;
          }
-         robot = walkpath.path.get(walkpath.step);}
+         robot = walkpath.path.get(walkpath.step);
+        
+        }
         else{
             walkpath.step = walkpath.step + 1;
             robot = walkpath.path.get(walkpath.step);
@@ -338,38 +340,7 @@ public class Project extends Application {
     
    
      
-         
- //          maze.changeColor(robot.x,robot.y); 
-//           robot = walkpath.path.get(1);
-//           maze.changeColor(robot.x,robot.y);
-//           robot = walkpath.path.get(2);
-//           maze.changeColor(robot.x,robot.y);
-//           robot = walkpath.path.get(3);
-//           maze.changeColor(robot.x,robot.y);
-//          
-        
-             //System.out.println(notend);
-             
-//        if (path.step != 0) {
-//            robot = path.path.get(path.step);
-//
-//            move();
-//            pass = checkCollision(robot.x, oax, robot.y, oay);
-//            if (pass == false) {
-//                path.step = path.step - 1;
-//                maze.changeColor(robot.x, robot.y);
-//
-//            }
-//            else{
-//            //path = reFindPath(robot.x,robot.y,ox,oy);
-//            }
-//
-//            //System.out.println(step);
-//
-//        } else {
-//            maze.changeColor(endx, endy);
-//            time.stop();
-//        }
+
 
     }
 
@@ -378,16 +349,16 @@ public class Project extends Application {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
          
-//        if (0 < args.length) {
-//            
-//              filename = args[0];
-//              System.out.print(filename);
-//              launch(args);
-//        } 
-//        else{
-//          System.err.println("Invalid arguments count:" + args.length);
-//          System.exit(1); 
-//       }
+        if (0 < args.length) {
+            
+              filename = args[0];
+              System.out.print(filename);
+              launch(args);
+        } 
+        else{
+          System.err.println("Invalid arguments count:" + args.length);
+          System.exit(1); 
+       }
    
        launch(args);
        
